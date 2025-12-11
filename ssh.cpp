@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream> //file reading (not used)
 #include <cstdio> // for popen
 #include <string> 
 
@@ -10,34 +9,27 @@ int options_option;
 int menu_option;
 int help_menu_option;
 
-//int option; changes to self int 
-//bool linux;
+
 bool putty;
 bool windows;
 bool linux;
-/*
-void clear(){
-    linux == true; // for debbuging
-    if (linux == false){
-    string command = "cls";
-    system(command.c_str());
-    }
-    if (linux == true){
-        string command = "clear";
-        system(command.c_str());
-    }
-}
-*/
-void clear(){
+
+//------------CLEARING FUNCTIONS--------------------
+void clear_windows(){
     string clear = "cls";
     system(clear.c_str());
 }
 
+
+void clear_linux(){
+    string clear = "clear";
+    system(clear.c_str());
+}
+
+
 void clear_check_system(){  //   MAKE TO POPEN
     string info_windows;
-    string info_linux;
     string check_windows = "ipconfig";
-    string check_linux = "ip add"; 
     FILE* pipe=_popen(check_windows.c_str(), "r");
     char buffer[256];
     while(fgets(buffer, sizeof buffer, pipe)){
@@ -45,56 +37,48 @@ void clear_check_system(){  //   MAKE TO POPEN
         if(info_windows.find("Windows IP Configuration")){ //string.find("") USAGE : use to find text in string
             windows = true;
         }
-        /*else 
+        else 
         {
-            windows = false;
-            FILE* linux = _popen(check_linux.c_str(), "r");
-            char buffer[256];
-            while(fgets(buffer, sizeof buffer, linux));
-            {
-                info_linux = buffer;
-                if (info_linux.find("eth0"))
-                {
-                    linux = true;
-                }
-
-                
-            }
+            linux = true;
         }
-        */
-        
-        
-        
+    
     }
     _pclose(pipe);
+
+}
+
+
+void clear_check(){
     if (windows = true)
     {
-      clear();
+      clear_windows();
     
     }
     else if (windows = false)
     {
-      clear();
+      clear_linux();
     }
-    /*
-    else if (condition)
-    {
-       cout << "linux";
-    }
-    */
 }
 
+
+
+
+
+
+//------------------MAIN MENU FUNCTIONS--------
 void main_menu(){
-    //int menu_option; 
-    clear(); //to clear the screen
+    clear_check(); //to clear the screen
     cout << "1.Connect \n2.Options \n3.Help\nEnter number: ";
     cin >> menu_option;
 }
 
 
+
+
+
+//-------------------OPTIONS MENU--------------
 void options(){
-    //int options_option;
-    clear(); //to clear the screen
+    clear_check(); //to clear the screen
     while (true)
     {
         cout << "Those are different settings\n1.Use putty\n2.Return to menu\n";
@@ -110,9 +94,12 @@ void options(){
     }
 }
 
+
+
+//--------------------HELP MENU-----------------
+
 void help_menu(){
-    //int help_menu_option;
-    clear(); //to clear the screen
+    clear_check(); //to clear the screen
     while (true)
     {
         cout << "This is the help menu: \nThose are the terms the connector works with";  //TODO to fix the full help
@@ -125,8 +112,13 @@ void help_menu(){
 }
 
 
+
+
+
+
+//-------------------CONNECTIONS------------------
 void connect(){
-    clear(); //to clear the screen
+    clear_check(); //to clear the screen
     if (putty == false)
     {
         string address;
@@ -148,7 +140,17 @@ void connect(){
 }
 
 
+
+
+
+
+
+
+
+//----------------MAIN RUN-------------------
+
 int main(){
+    clear_check_system();
     while (true){
     main_menu();
     if (menu_option == 1){
