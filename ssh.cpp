@@ -14,7 +14,11 @@ bool putty;
 bool windows;
 bool linux;
 
-//------------CLEARING FUNCTIONS--------------------
+//------------HELPERS--------------------
+
+
+
+//---------CLEAR HELPERS------
 void clear_windows(){
     string clear = "cls";
     system(clear.c_str());
@@ -64,7 +68,6 @@ void clear_check(){
 
 
 
-
 //------------------MAIN MENU FUNCTIONS--------
 void main_menu(){
     clear_check(); //to clear the screen
@@ -84,13 +87,15 @@ void options(){
         cout << "Those are different settings\n1.Use putty\n2.Return to menu\n";
         cin >> options_option;
         if (options_option == 1){
+            //putty_check(); TODO make checker if putty is installed
             putty = true;
+            clear_check();
 
         }
         if (options_option == 2){
             return;  // Just return from the options function, go back to the main menu
         }
-        // You can add functionality for "Use putty" 
+        
     }
 }
 
@@ -126,7 +131,7 @@ void connect(){
         string user;
         cout << "vuvedi address , port i user : ";
         cin >> address >> port >> user; 
-        string ssh_connect = "ssh " + user + "-l" + address + " -p " + port;
+        string ssh_connect = "ssh " + user + " -l " + address + " -p " + port;
         system(ssh_connect.c_str());
         FILE* pipe = _popen(ssh_connect.c_str(), "r");
         char buffer[265];
@@ -134,6 +139,34 @@ void connect(){
             cout << buffer;
         }
         _pclose(pipe);
+        
+    }
+    //putty_check(); TODO
+    if (putty == true){
+        int method;
+        clear_check();
+        cout << "Metodi:\n1.Ssh\n2.Telnet\n3.Serial\nIzberi metod: ";
+        cin >> method;
+        if (method == 1)
+        {
+            string ip;
+            string port;
+            clear_check();
+            cout << "vuvedi ip i port: ";
+            cin >> ip >> port ;
+            string command = "putty -ssh " + ip + " " + port;
+            
+            
+        }
+        if (method == 2)
+        {
+            /* code */
+        }
+        if (method == 3)
+        {
+            /* code */
+        }
+        
         
     }
     
@@ -163,9 +196,6 @@ int main(){
 
     if (menu_option == 3){
         help_menu();
-    }
-    if (menu_option == 4){
-        clear_check_system();
     }
 
     }
