@@ -38,7 +38,7 @@ void clear_check_system(){  //   MAKE TO POPEN
     char buffer[256];
     while(fgets(buffer, sizeof buffer, pipe)){
         info_windows = buffer;
-        if(info_windows.find("Windows IP Configuration")){ //string.find("") USAGE : use to find text in string
+        if(info_windows.find("Windows IP Configuration")){ //string.find("") USAGE : use to find text in string  !!! returns int 0
             windows = true;
         }
         else 
@@ -107,11 +107,18 @@ void help_menu(){
     clear_check(); //to clear the screen
     while (true)
     {
-        cout << "This is the help menu: \nThose are the terms the connector works with";  //TODO to fix the full help
-        cout << "\nPress 1 to return to menu: ";
+        clear_check();
+        cout << "This is the help menu: \nHere is quick guide to help you , press 1";  //TODO to fix the full help
+        cout << "\nPress 2 to return to menu: ";
         cin >> help_menu_option;
         if (help_menu_option == 1){
-            return;  // Return to the main menu after selecting '1'
+            string link = "start https://github.com/zalakomputripc02/ssh_connect";
+            FILE* link_open = _popen(link.c_str(), "r");
+            _pclose(link_open);
+        }
+        if (help_menu_option == 2)
+        {
+            return; // Return to the main menu after selecting '1'
         }
     }
 }
@@ -145,7 +152,7 @@ void connect(){
     if (putty == true){
         int method;
         clear_check();
-        cout << "Metodi:\n1.Ssh\n2.Telnet\n3.Serial\nIzberi metod: ";
+        cout << "Metodi:\n1.Ssh\n2.Telnet\n3.Raw\n4.Serial\nIzberi metod: ";
         cin >> method;
         if (method == 1)
         {
@@ -155,16 +162,43 @@ void connect(){
             cout << "vuvedi ip i port: ";
             cin >> ip >> port ;
             string command = "putty -ssh " + ip + " " + port;
+            FILE* putty_ssh = _popen(command.c_str() , "r");
+            _pclose(putty_ssh);
             
             
         }
         if (method == 2)
         {
-            /* code */
+            string ip;
+            string port;
+            clear_check();
+            cout << "vuvedi ip i port: ";
+            cin >> ip >> port ;
+            string command = "putty -telnet " + ip + " " + port;
+            FILE* putty_telnet = _popen(command.c_str() , "r");
+            _pclose(putty_telnet);
         }
         if (method == 3)
         {
-            /* code */
+            string ip;
+            string port;
+            clear_check();
+            cout << "vuvedi ip i port: ";
+            cin >> ip >> port ;
+            string command = "putty -telnet " + ip + " " + port;
+            FILE* putty_telnet = _popen(command.c_str() , "r");
+            _pclose(putty_telnet);   
+        }
+        if (method == 4)
+        {
+            string destinaciq;
+            string skoro;
+            clear_check();
+            cout << "vuvedi destinaciq i speed/rate: ";
+            cin >> destinaciq >> skoro ;
+            string command = "putty -serial " + destinaciq + " " + skoro;
+            FILE* putty_serial = _popen(command.c_str() , "r");
+            _pclose(putty_serial);
         }
         
         
